@@ -10,19 +10,9 @@ product_new:
     pattern:  /new
     defaults: { _controller: "AcmeProductBundle:Product:new" }
 
-product_create:
-    pattern:  /create
-    defaults: { _controller: "AcmeProductBundle:Product:create" }
-    requirements: { _method: post }
-
 product_edit:
     pattern:  /{id}/edit
     defaults: { _controller: "AcmeProductBundle:Product:edit" }
-
-product_update:
-    pattern:  /{id}/update
-    defaults: { _controller: "AcmeProductBundle:Product:update" }
-    requirements: { _method: post|put }
 
 product_delete:
     pattern:  /{id}/delete

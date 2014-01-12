@@ -14,10 +14,8 @@ use Acme\ProductBundle\Form\ProductType;
  */
 class ProductController extends Controller
 {
-
     /**
-     * Lists all Product products.
-     *
+     * Lists all products.
      */
     public function indexAction()
     {
@@ -50,12 +48,11 @@ class ProductController extends Controller
 
     /**
      * Creates a new Product.
-     *
      */
-    public function createAction(Request $request)
+    public function newAction(Request $request)
     {
         $product = new Product();
-        $form = $this->createProductForm($product, $this->generateUrl('product_create'), 'Create');
+        $form = $this->createProductForm($product);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -73,73 +70,9 @@ class ProductController extends Controller
     }
 
     /**
-    * Creates a form to create a Product.
-    *
-    * @param Product $product The Product
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createProductForm(Product $product, $url, $buttonLabel)
-    {
-        $form = $this->createForm(new ProductType(), $product, array(
-            'action' => $url,
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array(
-            'label' => $buttonLabel,
-            'attr' => array('class' => 'btn btn-primary')
-        ));
-
-        return $form;
-    }
-
-    /**
-     * Displays a form to create a new Product.
-     *
-     */
-    public function newAction()
-    {
-        $product = new Product();
-        $form   = $this->createProductForm($product, $this->generateUrl('product_create'), 'Create');
-
-        return $this->render('AcmeProductBundle:Product:new.html.twig', array(
-            'product' => $product,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Displays a form to edit an existing Product.
-     *
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $product = $em->getRepository('AcmeProductBundle:Product')->find($id);
-
-        if (!$product) {
-            throw $this->createNotFoundException('Unable to find Product.');
-        }
-
-        $form = $this->createProductForm(
-            $product,
-            $this->generateUrl('product_update', array('id' => $product->getId())),
-            'Update'
-        );
-
-        return $this->render('AcmeProductBundle:Product:edit.html.twig', array(
-            'product'      => $product,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
      * Edits an existing Product.
-     *
      */
-    public function updateAction(Request $request, $id)
+    public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -149,11 +82,7 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Unable to find Product.');
         }
 
-        $form = $this->createProductForm(
-            $product,
-            $this->generateUrl('product_update', array('id' => $product->getId())),
-            'Update'
-        );
+        $form = $this->createProductForm($product);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -166,5 +95,34 @@ class ProductController extends Controller
             'product'      => $product,
             'form'         => $form->createView(),
         ));
+    }
+
+    /**
+    * Creates a Form for the product
+    *
+     * @param Product $product
+     * @return \Symfony\Component\Form\Form
+     */
+    private function createProductForm(Product $product)
+    {
+        if ($product->getId()) {
+            $action = $this->generateUrl('product_edit', array('id' => $product->getId()));
+            $buttonLabel = 'Update';
+        } else {
+            $action = $this->generateUrl('product_new');
+            $buttonLabel = 'Create';
+        }
+
+        $form = $this->createForm(new ProductType(), $product, array(
+            'action' => $action,
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array(
+            'label' => $buttonLabel,
+            'attr' => array('class' => 'btn btn-primary')
+        ));
+
+        return $form;
     }
 }
