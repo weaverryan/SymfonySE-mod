@@ -29,6 +29,25 @@ class ProductController extends Controller
             'products' => $products,
         ));
     }
+
+    /**
+     * Finds and displays a Product.
+     */
+    public function showAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $product = $em->getRepository('AcmeProductBundle:Product')->find($id);
+
+        if (!$product) {
+            throw $this->createNotFoundException('Unable to find Product.');
+        }
+
+        return $this->render('AcmeProductBundle:Product:show.html.twig', array(
+            'product'      => $product,
+        ));
+    }
+
     /**
      * Creates a new Product.
      *
@@ -91,27 +110,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Finds and displays a Product.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $product = $em->getRepository('AcmeProductBundle:Product')->find($id);
-
-        if (!$product) {
-            throw $this->createNotFoundException('Unable to find Product.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('AcmeProductBundle:Product:show.html.twig', array(
-            'product'      => $product,
-            'delete_form' => $deleteForm->createView(),        ));
-    }
-
-    /**
      * Displays a form to edit an existing Product.
      *
      */
@@ -125,13 +123,11 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Unable to find Product.');
         }
 
-        $editForm = $this->createEditForm($product);
-        $deleteForm = $this->createDeleteForm($id);
+        $form = $this->createEditForm($product);
 
         return $this->render('AcmeProductBundle:Product:edit.html.twig', array(
             'product'      => $product,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'   => $form->createView(),
         ));
     }
 
@@ -167,11 +163,10 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Unable to find Product.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($product);
-        $editForm->handleRequest($request);
+        $form = $this->createEditForm($product);
+        $form->handleRequest($request);
 
-        if ($editForm->isValid()) {
+        if ($form->isValid()) {
             $em->flush();
 
             return $this->redirect($this->generateUrl('product_edit', array('id' => $id)));
@@ -179,48 +174,7 @@ class ProductController extends Controller
 
         return $this->render('AcmeProductBundle:Product:edit.html.twig', array(
             'product'      => $product,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'form'         => $form->createView(),
         ));
-    }
-    /**
-     * Deletes a Product.
-     *
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $product = $em->getRepository('AcmeProductBundle:Product')->find($id);
-
-            if (!$product) {
-                throw $this->createNotFoundException('Unable to find Product.');
-            }
-
-            $em->remove($product);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('product'));
-    }
-
-    /**
-     * Creates a form to delete a Product by id.
-     *
-     * @param mixed $id The id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('product_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger')))
-            ->getForm()
-        ;
     }
 }
