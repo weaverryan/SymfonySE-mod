@@ -55,7 +55,7 @@ class ProductController extends Controller
     public function createAction(Request $request)
     {
         $product = new Product();
-        $form = $this->createCreateForm($product);
+        $form = $this->createProductForm($product, $this->generateUrl('product_create'), 'Create');
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -79,15 +79,15 @@ class ProductController extends Controller
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Product $product)
+    private function createProductForm(Product $product, $url, $buttonLabel)
     {
         $form = $this->createForm(new ProductType(), $product, array(
-            'action' => $this->generateUrl('product_create'),
+            'action' => $url,
             'method' => 'POST',
         ));
 
         $form->add('submit', 'submit', array(
-            'label' => 'Create',
+            'label' => $buttonLabel,
             'attr' => array('class' => 'btn btn-primary')
         ));
 
@@ -101,7 +101,7 @@ class ProductController extends Controller
     public function newAction()
     {
         $product = new Product();
-        $form   = $this->createCreateForm($product);
+        $form   = $this->createProductForm($product, $this->generateUrl('product_create'), 'Create');
 
         return $this->render('AcmeProductBundle:Product:new.html.twig', array(
             'product' => $product,
@@ -123,7 +123,11 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Unable to find Product.');
         }
 
-        $form = $this->createEditForm($product);
+        $form = $this->createProductForm(
+            $product,
+            $this->generateUrl('product_update', array('id' => $product->getId())),
+            'Update'
+        );
 
         return $this->render('AcmeProductBundle:Product:edit.html.twig', array(
             'product'      => $product,
@@ -131,24 +135,6 @@ class ProductController extends Controller
         ));
     }
 
-    /**
-    * Creates a form to edit a Product.
-    *
-    * @param Product $product The Product
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Product $product)
-    {
-        $form = $this->createForm(new ProductType(), $product, array(
-            'action' => $this->generateUrl('product_update', array('id' => $product->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update', 'attr' => array('class' => 'btn btn-primary')));
-
-        return $form;
-    }
     /**
      * Edits an existing Product.
      *
@@ -163,7 +149,11 @@ class ProductController extends Controller
             throw $this->createNotFoundException('Unable to find Product.');
         }
 
-        $form = $this->createEditForm($product);
+        $form = $this->createProductForm(
+            $product,
+            $this->generateUrl('product_update', array('id' => $product->getId())),
+            'Update'
+        );
         $form->handleRequest($request);
 
         if ($form->isValid()) {
