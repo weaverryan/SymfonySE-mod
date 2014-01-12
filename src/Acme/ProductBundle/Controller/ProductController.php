@@ -16,53 +16,53 @@ class ProductController extends Controller
 {
 
     /**
-     * Lists all Product entities.
+     * Lists all Product products.
      *
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('AcmeProductBundle:Product')->findAll();
+        $products = $em->getRepository('AcmeProductBundle:Product')->findAll();
 
         return $this->render('AcmeProductBundle:Product:index.html.twig', array(
-            'entities' => $entities,
+            'products' => $products,
         ));
     }
     /**
-     * Creates a new Product entity.
+     * Creates a new Product.
      *
      */
     public function createAction(Request $request)
     {
-        $entity = new Product();
-        $form = $this->createCreateForm($entity);
+        $product = new Product();
+        $form = $this->createCreateForm($product);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $em->persist($product);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('product_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('product_show', array('id' => $product->getId())));
         }
 
         return $this->render('AcmeProductBundle:Product:new.html.twig', array(
-            'entity' => $entity,
+            'product' => $product,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-    * Creates a form to create a Product entity.
+    * Creates a form to create a Product.
     *
-    * @param Product $entity The entity
+    * @param Product $product The Product
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Product $entity)
+    private function createCreateForm(Product $product)
     {
-        $form = $this->createForm(new ProductType(), $entity, array(
+        $form = $this->createForm(new ProductType(), $product, array(
             'action' => $this->generateUrl('product_create'),
             'method' => 'POST',
         ));
@@ -73,76 +73,76 @@ class ProductController extends Controller
     }
 
     /**
-     * Displays a form to create a new Product entity.
+     * Displays a form to create a new Product.
      *
      */
     public function newAction()
     {
-        $entity = new Product();
-        $form   = $this->createCreateForm($entity);
+        $product = new Product();
+        $form   = $this->createCreateForm($product);
 
         return $this->render('AcmeProductBundle:Product:new.html.twig', array(
-            'entity' => $entity,
+            'product' => $product,
             'form'   => $form->createView(),
         ));
     }
 
     /**
-     * Finds and displays a Product entity.
+     * Finds and displays a Product.
      *
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AcmeProductBundle:Product')->find($id);
+        $product = $em->getRepository('AcmeProductBundle:Product')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.');
+        if (!$product) {
+            throw $this->createNotFoundException('Unable to find Product.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('AcmeProductBundle:Product:show.html.twig', array(
-            'entity'      => $entity,
+            'product'      => $product,
             'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
-     * Displays a form to edit an existing Product entity.
+     * Displays a form to edit an existing Product.
      *
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AcmeProductBundle:Product')->find($id);
+        $product = $em->getRepository('AcmeProductBundle:Product')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.');
+        if (!$product) {
+            throw $this->createNotFoundException('Unable to find Product.');
         }
 
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($product);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('AcmeProductBundle:Product:edit.html.twig', array(
-            'entity'      => $entity,
+            'product'      => $product,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
-    * Creates a form to edit a Product entity.
+    * Creates a form to edit a Product.
     *
-    * @param Product $entity The entity
+    * @param Product $product The Product
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Product $entity)
+    private function createEditForm(Product $product)
     {
-        $form = $this->createForm(new ProductType(), $entity, array(
-            'action' => $this->generateUrl('product_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new ProductType(), $product, array(
+            'action' => $this->generateUrl('product_update', array('id' => $product->getId())),
             'method' => 'PUT',
         ));
 
@@ -151,21 +151,21 @@ class ProductController extends Controller
         return $form;
     }
     /**
-     * Edits an existing Product entity.
+     * Edits an existing Product.
      *
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('AcmeProductBundle:Product')->find($id);
+        $product = $em->getRepository('AcmeProductBundle:Product')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Product entity.');
+        if (!$product) {
+            throw $this->createNotFoundException('Unable to find Product.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($product);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -175,13 +175,13 @@ class ProductController extends Controller
         }
 
         return $this->render('AcmeProductBundle:Product:edit.html.twig', array(
-            'entity'      => $entity,
+            'product'      => $product,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
     /**
-     * Deletes a Product entity.
+     * Deletes a Product.
      *
      */
     public function deleteAction(Request $request, $id)
@@ -191,13 +191,13 @@ class ProductController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('AcmeProductBundle:Product')->find($id);
+            $product = $em->getRepository('AcmeProductBundle:Product')->find($id);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Product entity.');
+            if (!$product) {
+                throw $this->createNotFoundException('Unable to find Product.');
             }
 
-            $em->remove($entity);
+            $em->remove($product);
             $em->flush();
         }
 
@@ -205,9 +205,9 @@ class ProductController extends Controller
     }
 
     /**
-     * Creates a form to delete a Product entity by id.
+     * Creates a form to delete a Product by id.
      *
-     * @param mixed $id The entity id
+     * @param mixed $id The id
      *
      * @return \Symfony\Component\Form\Form The form
      */
