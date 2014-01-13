@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Acme\ProductBundle\Entity\Product;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 
-class LoadUserData implements FixtureInterface
+class ProductFixtures implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
