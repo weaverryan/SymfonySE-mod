@@ -4,11 +4,12 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
-    <services>
-        <service id="some_service_id" class="Acme\DemoBundle\SomeClass">
-            <argument type="service" id="some_service" />
-        </service>
-    </services>
-    -->
+
+    <!--<services>-->
+        <!--<service id="acme.dmeo.logger_listener" class="Acme\DemoBundle\EventListener\LoggerListener">-->
+            <!--<argument type="service" id="logger" />-->
+            <!--<tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />-->
+        <!--</service>-->
+    <!--</services>-->
+
 </container>
