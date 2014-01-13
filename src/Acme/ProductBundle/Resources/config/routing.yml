@@ -2,13 +2,13 @@ product:
     pattern:  /product.{_format}
     defaults: { _controller: "AcmeProductBundle:Product:index", _format: html }
 
-product_show:
-    pattern:  /product/{id}
-    defaults: { _controller: "AcmeProductBundle:Product:show" }
-
 product_new:
     pattern:  /product/new
     defaults: { _controller: "AcmeProductBundle:Product:new" }
+
+product_show:
+    pattern:  /product/{id}
+    defaults: { _controller: "AcmeProductBundle:Product:show" }
 
 product_edit:
     pattern:  /product/{id}/edit
