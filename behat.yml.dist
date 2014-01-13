@@ -1,0 +1,14 @@
+default:
+    context:
+        class: Acme\Behat\Context\FeatureContext
+        parameters:
+            screenshots_path: web/tmp
+    extensions:
+        Behat\MinkExtension\Extension:
+            base_url: http://localhost:9000/app_test.php
+            files_path: features/files/
+            javascript_session: selenium2
+            default_session:    selenium2
+            selenium2:
+                wd_host: http://localhost:4444/wd/hub
+            browser_name: firefox
