@@ -15,9 +15,9 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('price')
-            ->add('description')
+            ->add('name', 'text')
+            ->add('price', 'money', array('currency' => 'USD'))
+            ->add('description', 'textarea')
         ;
     }
     
@@ -36,6 +36,6 @@ class ProductType extends AbstractType
      */
     public function getName()
     {
-        return 'acme_productbundle_product';
+        return 'acme_product';
     }
 }

@@ -120,10 +120,22 @@ class ProductController extends Controller
             $buttonLabel = 'Create';
         }
 
+        /*
         $form = $this->createForm(new ProductType(), $product, array(
             'action' => $action,
             'method' => 'POST',
         ));
+        */
+
+        $form = $this->createFormBuilder($product, array(
+            'action' => $action,
+            'method' => 'POST',
+        ))
+            ->add('name', 'text')
+            ->add('price', 'money', array('currency' => 'USD'))
+            ->add('description', 'textarea')
+            ->getForm()
+        ;
 
         $form->add('submit', 'submit', array(
             'label' => $buttonLabel,
