@@ -2,6 +2,7 @@
 
 namespace Acme\ProductBundle\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -17,11 +18,17 @@ class ProductController extends Controller
     /**
      * Lists all products.
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $products = $em->getRepository('AcmeProductBundle:Product')->findAll();
+
+        if ($request->getRequestFormat() == 'json') {
+            $productData = $this->serializeProducts($products);
+
+            return new JsonResponse($productData);
+        }
 
         return $this->render('AcmeProductBundle:Product:index.html.twig', array(
             'products' => $products,
@@ -124,5 +131,24 @@ class ProductController extends Controller
         ));
 
         return $form;
+    }
+
+    /**
+     * @param Product[] $products
+     * @return array
+     */
+    private function serializeProducts(array $products)
+    {
+        $productData = array();
+        foreach ($products as $product) {
+            /** @var Product $product */
+            $productData[] = array(
+                'id'    => $product->getId(),
+                'name'  => $product->getName(),
+                'description' => $product->getDescription()
+            );
+        }
+
+        return $productData;
     }
 }
