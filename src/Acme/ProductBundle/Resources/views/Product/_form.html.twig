@@ -1,0 +1,21 @@
+{{ form_start(form, { 'attr': {'novalidate': 'novalidate'} } ) }}
+
+    {{ form_errors(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.price, {
+        'label': 'Product price',
+        'attr':  { 'class': 'form-price' }
+    }) }}
+
+
+
+    <div class="form-group">
+        {{ form_errors(form.description) }}
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description, {
+            'attr': { 'class': 'form-control', 'placeholder': 'Enter email' }
+        }) }}
+    </div>
+
+
+{{ form_end(form) }}
