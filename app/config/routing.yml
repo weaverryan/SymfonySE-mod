@@ -1,6 +1,6 @@
 acme_product:
     resource: "@AcmeProductBundle/Resources/config/routing.yml"
-    prefix:   /product
+    prefix:   /
 
 _acme_demo:
     resource: "@AcmeDemoBundle/Resources/config/routing.yml"
