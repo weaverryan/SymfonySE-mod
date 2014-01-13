@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProductRepository extends EntityRepository
 {
+    public function findAllAlphabetical()
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        throw new \Exception('todo');
+    }
 }
