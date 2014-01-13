@@ -6,7 +6,7 @@
 
     <!--
     <services>
-        <service id="acme.dmeo.logger_listener" class="Acme\DemoBundle\EventListener\LoggerListener">
+        <service id="acme.demo.logger_listener" class="Acme\DemoBundle\EventListener\LoggerListener">
             <argument type="service" id="logger" />
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
         </service>
