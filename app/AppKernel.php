@@ -18,7 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
 
             // OUR bundles
-            $bundles[] = new Acme\DemoBundle\AcmeDemoBundle(),
+            new Acme\DemoBundle\AcmeDemoBundle(),
             new Acme\ProductBundle\AcmeProductBundle(),
         );
 
